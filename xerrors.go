@@ -4,7 +4,10 @@ package xerrors
 * Work in progress (custom) error handling that aims to generalize the error types for easier error handling 
 */
 
-
+import (
+	"runtime"
+	"strconv"
+	)
 /*
 * The system errors are FATAL, UNRECOVERABLE errors in the BUSINESS logic of the application. The system error should be considered as an ASSERT.
 * The CURRENT executed job should be aborted.
@@ -12,17 +15,19 @@ package xerrors
 * A general message should be displayed to the end user.
 * The debug_msg is for the developer only and should contain the origin of the error (eg filename and line number).
 */
+var SYS_ERR_MSG string = "Application Error!"
 
 type SysErr struct {
     debug_msg string
 }
 
 func (e *SysErr) Error() string {
-    return  "Application Error!"
+    return  SYS_ERR_MSG
 }
 
-func NewSysErr(debug_msg string) SysErr{
-    return SysErr{debug_msg}
+func NewSysErr() SysErr{
+    _, fn, line, _ := runtime.Caller(1)
+    return SysErr{SYS_ERR_MSG + ` file name: ` + fn + ` line: ` + strconv.Itoa(line) }
 }
 
 /*
