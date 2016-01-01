@@ -21,7 +21,7 @@ type SysErr struct {
     debug_msg string
 }
 
-func (e *SysErr) Error() string {
+func (e SysErr) Error() string {
     return  SYS_ERR_MSG
 }
 
@@ -41,7 +41,7 @@ type PeerErr struct{
     source  string
 }
 
-func (e *PeerErr) Error() string {
+func (e PeerErr) Error() string {
     return  e.source + `: Peer Error!`
 }
 
@@ -62,7 +62,7 @@ type UiErr struct{
 	debug_msg   string
 }
 
-func (e *UiErr) Error() string {
+func (e UiErr) Error() string {
         return  e.ui_msg
 }
 
