@@ -9,7 +9,7 @@ import (
 	"strconv"
 	)
 
-var sysErrMsg string = "Application Error!"
+var sysErrMsg := "Application Error!"
 /*
 * The system errors are FATAL, UNRECOVERABLE errors in the BUSINESS logic of the application. The system error should be considered as an ASSERT.
 * The CURRENT executed job should be aborted.
