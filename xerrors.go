@@ -18,7 +18,7 @@ import (
 var SYS_ERR_MSG string = "Application Error!"
 
 type SysErr struct {
-    debug_msg string
+    debugMsg string
 }
 
 func (e SysErr) Error() string {
@@ -58,15 +58,15 @@ func NewPeerErr(source string) PeerErr{
 */
 
 type UiErr struct{
-        ui_msg	    string
-	debug_msg   string
+        uiMsg	    string
+	debugMsg   string
 }
 
 func (e UiErr) Error() string {
-        return  e.ui_msg
+        return  e.uiMsg
 }
 
-func NewUiErr(ui_msg string, debug_msg string) UiErr{
-        return UiErr{ui_msg, debug_msg}
+func NewUiErr(uiMsg string, debugMsg string) UiErr{
+        return UiErr{uiMsg, debugMsg}
 }
 
