@@ -8,6 +8,8 @@ import (
 	"runtime"
 	"strconv"
 	)
+
+var sysErrMsg string = "Application Error!"
 /*
 * The system errors are FATAL, UNRECOVERABLE errors in the BUSINESS logic of the application. The system error should be considered as an ASSERT.
 * The CURRENT executed job should be aborted.
@@ -15,19 +17,18 @@ import (
 * A general message should be displayed to the end user.
 * The debug_msg is for the developer only and should contain the origin of the error (eg filename and line number).
 */
-var SYS_ERR_MSG string = "Application Error!"
 
 type SysErr struct {
     debugMsg string
 }
 
 func (e SysErr) Error() string {
-    return  SYS_ERR_MSG
+    return  sysErrMsg
 }
 
 func NewSysErr() SysErr{
     _, fn, line, _ := runtime.Caller(1)
-    return SysErr{SYS_ERR_MSG + ` file name: ` + fn + ` line: ` + strconv.Itoa(line) }
+    return SysErr{sysErrMsg + ` file name: ` + fn + ` line: ` + strconv.Itoa(line) }
 }
 
 /*
@@ -36,7 +37,6 @@ func NewSysErr() SysErr{
 * When a Peer error apears it means that the remote system is down.
 * A general message should be displayed to the end user with the name (or unique identifier) of the remote system
 */
-
 type PeerErr struct{
     source  string
 }
@@ -56,7 +56,6 @@ func NewPeerErr(source string) PeerErr{
 * and the developer may want to mask it for example to "Not enough system resources. Please try again later!". In this case the debug_msg should contain the
 * REAL error and the ui_msg should contain the USER FRIENDLY error.
 */
-
 type UiErr struct{
         uiMsg	    string
 	debugMsg   string
