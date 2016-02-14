@@ -18,6 +18,7 @@ import (
 */
 
 var sysErrMsg = "Application Error!"
+var sysErrCode = "SYS_ERR_001"
 
 type SysErr struct {
     debugMsg string
@@ -27,8 +28,8 @@ func (e SysErr) GetDebugMsg() string{
     return e.debugMsg
 }
 
-func (e SysErr) Error() string {
-    return  sysErrMsg
+func (e SysErr) Error() (string, string) {
+    return  sysErrMsg, sysErrCode
 }
 
 func NewSysErr() SysErr{
@@ -44,13 +45,14 @@ func NewSysErr() SysErr{
 */
 
 var peerErrMsg = "Peer Error!"
+var peerErrCode = "PEER_ERR_001"
 
 type PeerErr struct{
     debugMsg  string
 }
 
-func (e PeerErr) Error() string {
-    return  peerErrMsg
+func (e PeerErr) Error() (string, string) {
+    return  peerErrMsg, peerErrCode
 }
 
 func (e PeerErr) GetDebugMsg() string{
@@ -68,21 +70,24 @@ func NewPeerErr(debugMsg string) PeerErr{
 * and the developer may want to mask it for example to "Not enough system resources. Please try again later!". In this case the debug_msg should contain the
 * REAL error and the ui_msg should contain the USER FRIENDLY error.
 */
+
 type UIErr struct{
         uiMsg		string
 	debugMsg	string
+	code		string
 	IsRetryable	bool
 }
 
-func (e UIErr) Error() string {
-        return  e.uiMsg
+func (e UIErr) Error() (string, string) {
+        return  e.uiMsg, e.code
 }
 
 func (e UIErr) GetDebugMsg() string{
     return e.debugMsg
 }
 
-func NewUIErr(uiMsg string, debugMsg string, IsRetryable bool) UIErr{
-        return UIErr{uiMsg, debugMsg, IsRetryable}
+func NewUIErr(uiMsg string, debugMsg string, code string, IsRetryable bool) UIErr{
+        return UIErr{uiMsg, debugMsg, code, IsRetryable}
 }
+
 
