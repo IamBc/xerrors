@@ -9,7 +9,6 @@ import (
 	"strconv"
 	)
 
-var sysErrMsg = "Application Error!"
 /*
 * The system errors are FATAL, UNRECOVERABLE errors in the BUSINESS logic of the application. The system error should be considered as an ASSERT.
 * The CURRENT executed job should be aborted.
@@ -18,8 +17,14 @@ var sysErrMsg = "Application Error!"
 * The debug_msg is for the developer only and should contain the origin of the error (eg filename and line number).
 */
 
+var sysErrMsg = "Application Error!"
+
 type SysErr struct {
     debugMsg string
+}
+
+func (e SysErr) GetDebugMsg() string{
+    return e.debugMsg
 }
 
 func (e SysErr) Error() string {
@@ -37,16 +42,23 @@ func NewSysErr() SysErr{
 * When a Peer error apears it means that the remote system is down.
 * A general message should be displayed to the end user with the name (or unique identifier) of the remote system
 */
+
+var peerErrMsg = "Peer Error!"
+
 type PeerErr struct{
-    source  string
+    debugMsg  string
 }
 
 func (e PeerErr) Error() string {
-    return  e.source + `: Peer Error!`
+    return  peerErrMsg
 }
 
-func NewPeerErr(source string) PeerErr{
-    return PeerErr{source}
+func (e PeerErr) GetDebugMsg() string{
+    return e.debugMsg
+}
+
+func NewPeerErr(debugMsg string) PeerErr{
+    return PeerErr{debugMsg}
 }
 
 /*
@@ -56,16 +68,21 @@ func NewPeerErr(source string) PeerErr{
 * and the developer may want to mask it for example to "Not enough system resources. Please try again later!". In this case the debug_msg should contain the
 * REAL error and the ui_msg should contain the USER FRIENDLY error.
 */
-type UiErr struct{
-        uiMsg	    string
-	debugMsg   string
+type UIErr struct{
+        uiMsg		string
+	debugMsg	string
+	IsRetryable	bool
 }
 
-func (e UiErr) Error() string {
+func (e UIErr) Error() string {
         return  e.uiMsg
 }
 
-func NewUiErr(uiMsg string, debugMsg string) UiErr{
-        return UiErr{uiMsg, debugMsg}
+func (e UIErr) GetDebugMsg() string{
+    return e.debugMsg
+}
+
+func NewUIErr(uiMsg string, debugMsg string, IsRetryable bool) UIErr{
+        return UIErr{uiMsg, debugMsg, IsRetryable}
 }
 
