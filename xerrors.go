@@ -9,20 +9,23 @@ import (
 	"strconv"
 	)
 
+var sysErrMsg = "Application Error!"
+var sysErrCode = "SYS_ERR_001"
+var peerErrMsg = "Peer Error!"
+var peerErrCode = "PEER_ERR_001"
+
 /*
 * The system errors are FATAL, UNRECOVERABLE errors in the BUSINESS logic of the application. The system error should be considered as an ASSERT.
 * The CURRENT executed job should be aborted.
 * When a system error appears it means that there is a BUG in the code. 
 * A general message should be displayed to the end user.
-* The debug_msg is for the developer only and should contain the origin of the error (eg filename and line number).
+* The debugMsg is for the developer only and should contain the origin of the error (eg filename and line number).
 */
-
-var sysErrMsg = "Application Error!"
-var sysErrCode = "SYS_ERR_001"
 
 type SysErr struct {
     debugMsg string
 }
+
 
 func (e SysErr) GetDebugMsg() string{
     return e.debugMsg
@@ -42,14 +45,13 @@ func NewSysErr() SysErr{
 * The CURRENT executed job should be aborted.
 * When a Peer error apears it means that the remote system is down.
 * A general message should be displayed to the end user with the name (or unique identifier) of the remote system
+* debugMsg is for the developer so that the error can be handled easier.
 */
-
-var peerErrMsg = "Peer Error!"
-var peerErrCode = "PEER_ERR_001"
 
 type PeerErr struct{
     debugMsg  string
 }
+
 
 func (e PeerErr) Error() (string, string) {
     return  peerErrMsg, peerErrCode
@@ -66,14 +68,11 @@ func NewPeerErr(debugMsg string) PeerErr{
 /*
 * The UI errors may be FATAL, but can also be RECOVERABLE. It is should be considered as an EXCEPTION. 
 * If the current executed job is aborted depends on the error itself.
-* The UI error's ui_msg should be shown to the user. In some cases the message of the actual error may not be user friendly(eg "No disk on device!")
-* and the developer may want to mask it for example to "Not enough system resources. Please try again later!". In this case the debug_msg should contain the
-* REAL error and the ui_msg should contain the USER FRIENDLY error.
 */
 
 type UIErr struct{
-        uiMsg		string
-	debugMsg	string
+        uiMsg		string // Message that should be displayed to the user, saying what the user should do
+	debugMsg	string // Message for the developer
 	code		string
 	IsRetryable	bool
 }
