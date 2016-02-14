@@ -3,4 +3,13 @@
 <br/>
 
 custom structs for error handling in golang
-
+<br/>
+<h3>Todo:</h3>
+<ul>
+<li>Examples</li>
+<li>Configuration settings</li>
+<li>Improve the documentation</li>
+<li>Configuration settings</li>
+<li>Shorter way to create UI errors</li>
+<li>Storage of extra parameters?</li>
+</ul>
