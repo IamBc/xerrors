@@ -29,7 +29,7 @@ func (e SysErr) GetDebugMsg() string{
     return e.debugMsg
 }
 
-func (e SysErr) Error() (string) {
+func (e SysErr) Error() string {
     return  sysErrMsg
 }
 
