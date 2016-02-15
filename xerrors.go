@@ -10,9 +10,7 @@ import (
 	)
 
 var sysErrMsg = "Application Error!"
-var sysErrCode = "SYS_ERR_001"
 var peerErrMsg = "Peer Error!"
-var peerErrCode = "PEER_ERR_001"
 
 /*
 * The system errors are FATAL, UNRECOVERABLE errors in the BUSINESS logic of the application. The system error should be considered as an ASSERT.
@@ -31,8 +29,8 @@ func (e SysErr) GetDebugMsg() string{
     return e.debugMsg
 }
 
-func (e SysErr) Error() (string, string) {
-    return  sysErrMsg, sysErrCode
+func (e SysErr) Error() (string) {
+    return  sysErrMsg
 }
 
 func NewSysErr() SysErr{
@@ -53,11 +51,11 @@ type PeerErr struct{
 }
 
 
-func (e PeerErr) Error() (string, string) {
-    return  peerErrMsg, peerErrCode
+func (e PeerErr) Error() (string) {
+    return  peerErrMsg
 }
 
-func (e PeerErr) GetDebugMsg() string{
+func (e PeerErr) GetDebugMsg() (string){
     return e.debugMsg
 }
 
@@ -77,12 +75,12 @@ type UIErr struct{
 	IsRetryable	bool
 }
 
-func (e UIErr) Error() (string, string) {
-        return  e.uiMsg, e.code
+func (e UIErr) Error() (string) {
+        return  e.uiMsg
 }
 
-func (e UIErr) GetDebugMsg() string{
-    return e.debugMsg
+func (e UIErr) GetDebugMsg() (string, string){
+    return e.debugMsg, e.code
 }
 
 func NewUIErr(uiMsg string, debugMsg string, code string, IsRetryable bool) UIErr{
